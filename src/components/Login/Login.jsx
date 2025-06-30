@@ -31,8 +31,8 @@ class Login extends Component{
     }
     render(){
         const formFields=[
-            {name:"useremail",type:"email", value:this.state.useremail, label:"Email", placeholder:"Enter your email",},
-            {name:"userpassword",type:"password", value:this.state.userpassword, label:"Password", placeholder:"Enter your password"},
+            {name:"useremail",type:"email", value:this.state.useremail, label:"Email", placeholder:"Enter your email", onInputChange:this.onInputChange},
+            {name:"userpassword",type:"password", value:this.state.userpassword, label:"Password", placeholder:"Enter your password", onInputChange:this.onInputChange},
         ]
         return(
             <>
@@ -42,9 +42,9 @@ class Login extends Component{
             </div>
             <div className="auth-form-section">
                 {
-                    formFields.map(({name, value, label, type, placeholder}, index)=>(
+                    formFields.map((data, index)=>(
                         <div key={index}>
-                            <TextField 
+                            {/* <TextField 
                                     name={name}
                                     value={value} 
                                     label={label} 
@@ -52,7 +52,8 @@ class Login extends Component{
                                     variant="standard" 
                                     onChange={(e)=>this.onInputChange(e)}
                                     placeholder={placeholder}
-                                    />
+                                    /> */}
+                                <FormInput {...data}/>
                         </div>
                     ))
                 }

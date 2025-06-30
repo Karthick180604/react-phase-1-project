@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import "../Login/Login.css"
 import Button from '@mui/material/Button';
-import { TextField } from "@mui/material";
+import FormInput from "../FormInput/FormInput";
 
 
 class Signup extends Component{
@@ -38,9 +38,9 @@ class Signup extends Component{
     
     render(){
         const formFields=[
-            {name:"username", label:"Name", type:"text", placeholder:"Enter your name", value:this.state.username},
-            {name:"useremail", label:"Email", type:"email", placeholder:"Enter your email", value:this.state.useremail},
-            {name:"userpassword", label:"Password", type:"password", placeholder:"Enter your password", value:this.state.userpassword},
+            {name:"username", label:"Name", type:"text", placeholder:"Enter your name", value:this.state.username, onInputChange:this.onInputChange},
+            {name:"useremail", label:"Email", type:"email", placeholder:"Enter your email", value:this.state.useremail, onInputChange:this.onInputChange},
+            {name:"userpassword", label:"Password", type:"password", placeholder:"Enter your password", value:this.state.userpassword, onInputChange:this.onInputChange},
         ]
         return(
             <>
@@ -50,17 +50,9 @@ class Signup extends Component{
                         </div>
                         <div className="auth-form-section">
                             {
-                                formFields.map(({name, value, label, type, placeholder}, index)=>(
+                                formFields.map((data, index)=>(
                                     <div key={index}>
-                                        <TextField 
-                                                name={name}
-                                                value={value} 
-                                                label={label} 
-                                                type={type}
-                                                variant="standard" 
-                                                onChange={(e)=>this.onInputChange(e)}
-                                                placeholder={placeholder}
-                                                />
+                                        <FormInput {...data}/>
                                     </div>
                                 ))
                             }

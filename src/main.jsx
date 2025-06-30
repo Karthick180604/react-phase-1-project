@@ -7,9 +7,11 @@ import Products from './pages/Products/Products.jsx'
 import Cart from './pages/Cart/Cart.jsx'
 import Authentication from './pages/Authentication/Authentication.jsx'
 import "./index.css"
+import Navbar from './components/Navbar/Navbar.jsx'
 const router=createBrowserRouter([
     {
       path:"/",
+      element:<Navbar />,
       children:[
         {index:true, element:<Home />},
         {path:"products", element:<Products />},
