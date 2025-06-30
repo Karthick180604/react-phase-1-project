@@ -1,0 +1,22 @@
+.auth-container{
+    height: 60%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid black;
+    justify-content: space-around;
+}
+.auth-header{
+    height: 30%;
+    display: flex;
+    align-items: center;
+}
+.auth-form-section{
+    height: 50%;
+}
+.auth-button-container{
+    height: 20%;
+    display: flex;
+    align-items: center;
+}
