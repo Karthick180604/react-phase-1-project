@@ -3,6 +3,7 @@ import Login from "../../components/Login/Login"
 import Signup from "../../components/Signup/Signup"
 import "./Authentication.css"
 import { useNavigate } from "react-router-dom"
+import Welcome from "../../components/Welcome/Welcome"
 
 const FunctionalWrapper=(Authentication)=>{
     const Wrapper=(props)=>{
@@ -57,9 +58,9 @@ class Authentication extends Component{
             <div className="authentication-container">
                 {
                     this.state.loginOrSignup ? 
-                    <Login onLogin={this.onLogin} loginOrSignupRequest={this.loginOrSignupRequest}/>
+                    <Welcome><Login onLogin={this.onLogin} loginOrSignupRequest={this.loginOrSignupRequest}/></Welcome>
                     :
-                    <Signup onSignup={this.onSignup} loginOrSignupRequest={this.loginOrSignupRequest}/>
+                    <Welcome><Signup onSignup={this.onSignup} loginOrSignupRequest={this.loginOrSignupRequest}/></Welcome>
                 }
             </div>
         )

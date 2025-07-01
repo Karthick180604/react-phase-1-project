@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 
 import ProductFilter from "../../components/ProductFilter/ProductFilter";
 import ProductCard from "../../components/ProductCard/ProductCard";
-import { NavLink, Outlet } from "react-router-dom";
+import "./Products.css"
 
 class Products extends Component{
     constructor(props){
@@ -20,10 +20,15 @@ class Products extends Component{
     componentDidMount(){
         console.log("mounted")
         this.fetchProducts()
-        this.fetchCategories()
+        // this.fetchCategories()
     }
-    fetchCategories=async()=>{
-        const {data}=await getAllProducts();
+    // fetchCategories=async()=>{
+    //     const {data}=await getAllProducts();
+        
+    // }
+    fetchProducts= async()=>{
+        const {data}=await getAllProducts()
+        this.setState({products:data, filteredProducts:data})
         const filteredCategories=data.reduce((acc, product)=>{
             if(!acc.includes(product.category))
             {
@@ -33,10 +38,6 @@ class Products extends Component{
         },[])
         console.log(filteredCategories)
         this.setState({categories:filteredCategories})
-    }
-    fetchProducts= async()=>{
-        const {data}=await getAllProducts()
-        this.setState({products:data, filteredProducts:data})
     }
     onCategoryChange=(e)=>{
         const {value}=e.target
@@ -86,22 +87,25 @@ class Products extends Component{
     render(){
         return(
             <>
-            <h1>products</h1>
-            <ProductFilter 
-            category={this.state.category} 
-            onCategoryChange={this.onCategoryChange} 
-            categories={this.state.categories}
-            onSearchChange={this.onSearchChange}
-            value={this.state.search}
-            />  
-            <div>
-                {
-                    this.state.filteredProducts.map((data, index)=>(
-                        <div key={index}>
-                                <ProductCard {...data} onAddToCart={this.onAddToCart} />
-                        </div>
-                    ))
-                }
+            <div className="products-container">
+                <div className="products-filter-container">
+                    <ProductFilter 
+                    category={this.state.category} 
+                    onCategoryChange={this.onCategoryChange} 
+                    categories={this.state.categories}
+                    onSearchChange={this.onSearchChange}
+                    value={this.state.search}
+                    />  
+                </div>
+                <div className="products-display-container">
+                    {
+                        this.state.filteredProducts.map((data, index)=>(
+                            <div className="product-inside-container" key={index}>
+                                    <ProductCard {...data} onAddToCart={this.onAddToCart} />
+                            </div>
+                        ))
+                    }
+                </div>
             </div>
             </>
             

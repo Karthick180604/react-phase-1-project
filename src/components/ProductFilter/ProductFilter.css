@@ -1,3 +1,18 @@
+:root{
+    --primary:#F0F7F4;
+    --secondary:#2C5E4C;
+    --tertiary:#E7C961;
+}
+
 .product-filter-container{
+    width: 50%;
     display: flex;
+    justify-content: space-between;
+}
+.product-filter-input{
+    width:40%;
+}
+.product-filter-category
+{
+    width: 40%;
 }

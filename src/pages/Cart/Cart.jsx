@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import { getAllProducts } from "../../services/apiCalls"
 import ProductCard from "../../components/ProductCard/ProductCard"
 import { removeStorageProduct, updateStorageQuantity } from "../../services/storageOperations"
+import "./Cart.css"
 
 class Cart extends Component{
     constructor(props){
@@ -73,17 +74,21 @@ class Cart extends Component{
     render(){
         return(
             <>
-                <h1>Cart</h1>
-                <h2>total: {this.state.total}</h2>
-                <div className="cart-items">
-                    {
-                        this.state.cartProducts.map((data,index)=>(
-                            <div key={index}>
-                                <ProductCard {...data} cart={true} onQuantityChange={this.onQuantityChange} onRemoveCart={this.onRemoveCart} />
-                            </div>
-                        ))
-                    }
+            <div className="cart-container">
+                <div className="total-container">
+                    <h1>Cart</h1>
+                    <h2>total: ${this.state.total}</h2>
                 </div>
+                    <div className="cart-items">
+                        {
+                            this.state.cartProducts.map((data,index)=>(
+                                <div className="cart-product" key={index}>
+                                    <ProductCard {...data} cart={true} onQuantityChange={this.onQuantityChange} onRemoveCart={this.onRemoveCart} />
+                                </div>
+                            ))
+                        }
+                    </div>
+            </div>
             </>
         )
     }

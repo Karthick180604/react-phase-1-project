@@ -5,17 +5,22 @@
 }
 
 .auth-container{
-    height: 60%;
-    width: 35%;
-    background-color: var(--primary);
+    height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     border: 2px solid black;
     justify-content: space-around;
+    background-color    : rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  box-shadow: 30px 30px 30px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 .auth-header{
-    height: 30%;
+    height: 35%;
     display: flex;
     align-items: center;
 }
@@ -23,7 +28,9 @@
     height: 50%;
 }
 .auth-button-container{
-    height: 20%;
+    height: 40%;
     display: flex;
     align-items: center;
+    justify-content: space-evenly;
+    flex-direction: column;
 }

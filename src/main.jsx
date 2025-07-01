@@ -10,6 +10,19 @@ import "./index.css"
 import WebLayout from './pages/WebLayout/WebLayout.jsx'
 import SingleProduct from './pages/SingleProduct/SingleProduct.jsx'
 import ProductSection from './pages/ProductSection/ProductSection.jsx'
+import { createTheme, ThemeProvider, styled } from '@mui/material/styles'
+
+const theme=createTheme({
+  palette:{
+    primary:{
+      main:"#2C5E4C"
+    },
+    secondary:{
+      main:"#E7C961"
+    }
+  }
+})
+
 const router=createBrowserRouter([
     {
       path:"/",
@@ -40,7 +53,9 @@ const router=createBrowserRouter([
     },
   ])
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <RouterProvider router={router} />
-  </StrictMode>,
+  // <StrictMode>
+    <ThemeProvider theme={theme}>
+      <RouterProvider router={router} />
+    </ThemeProvider>
+  // </StrictMode>, */
 )

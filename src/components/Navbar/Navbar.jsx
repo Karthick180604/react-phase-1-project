@@ -3,7 +3,7 @@ import { Link, NavLink, Outlet } from 'react-router-dom'
 import Badge from '@mui/material/Badge';
 import IconButton from '@mui/material/IconButton';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { Button } from '@mui/material';
+import "./Navbar.css"
 
 export class Navbar extends Component {
   constructor(props){
@@ -36,34 +36,36 @@ export class Navbar extends Component {
     ]
     return (
       <div className='navbar-container'>
-        <div className="nav-title">
-            <h1>Ecommerce</h1>
-        </div>
-        <div className="nav-elements">
-        {
-            navElements.map(({name, url}, index)=>(
-                <div key={index}>
-                    {
-                      name==="Cart" ? 
-                      (<IconButton aria-label="cart">
-                        <Badge badgeContent={this.state.cartCount} color="secondary">
-                          <ShoppingCartIcon />
-                        </Badge>
-                      </IconButton>)
-                      :
-                      ""
-                    }
-                    <NavLink to={url}
-                    className={({ isActive }) =>
-                    isActive ? 'active-link' : 'inactive-link'
-                    }
-                    >
-                    {name}
-                    </NavLink>
-                </div>
-            ))
-        }
-        <Link to="/auth">Authenticate</Link>
+        <div className="nav-internal-container">
+          <div className="nav-title">
+              <h1>Ecommerce</h1>
+          </div>
+          <div className="nav-elements">
+          {
+              navElements.map(({name, url}, index)=>(
+                  <div key={index}>
+                      {
+                        name==="Cart" ? 
+                        (<IconButton aria-label="cart">
+                          <Badge badgeContent={this.state.cartCount} color="secondary">
+                            <ShoppingCartIcon />
+                          </Badge>
+                        </IconButton>)
+                        :
+                        ""
+                      }
+                      <NavLink to={url}
+                      className={({ isActive }) =>
+                      isActive ? 'nav-text active-link' : 'nav-text inactive-link'
+                      }
+                      >
+                      {name}
+                      </NavLink>
+                  </div>
+              ))
+          }
+          <Link className='nav-text' to="/auth">Authenticate</Link>
+          </div>
         </div>
       </div>
     )

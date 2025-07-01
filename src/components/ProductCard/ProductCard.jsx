@@ -20,19 +20,24 @@ class ProductCard extends Component {
     const {id, title, price, description, category, image}=this.props
     return (
       <div className='product-card-container'>
-        <NavLink to={`product/${id}`}><h2>{title}</h2></NavLink>
-        <p>{description}</p>
-        <p>{price}</p>
+        <NavLink className="nav-text" to={`product/${id}`}>
+        <img className='product-image' src={image} />
+        <h2>{title}</h2>
+
+        </NavLink>
+        <p>${price}</p>
         {
           this.props.cart===true ? (
-            <div>
-              <p>{this.props.quantity}</p>
+            <div className='cart-buttons'>
+              <p>Quantity : {this.props.quantity}</p>
               <Button onClick={()=>this.props.onQuantityChange(id, 1)}>+</Button>
               <Button onClick={()=>this.props.onQuantityChange(id, -1)}>-</Button>
               <Button onClick={()=>this.props.onRemoveCart(id)}>Remove from cart</Button>
             </div>
           ) : (
-            <Button onClick={()=>this.props.onAddToCart(id)}>Add to cart</Button>
+            <div className='product-button'>
+              <Button onClick={()=>this.props.onAddToCart(id)}>Add to cart</Button>
+            </div>
           )
         }
       </div>
