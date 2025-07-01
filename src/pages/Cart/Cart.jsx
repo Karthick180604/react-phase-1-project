@@ -67,6 +67,7 @@ class Cart extends Component{
             const price=cartItem.price*cartItem.quantity
             return acc+price
         },0)
+        console.log(totalPrice)
         this.setState({total:totalPrice.toFixed(2)})
     }
     render(){

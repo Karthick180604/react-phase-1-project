@@ -36,31 +36,22 @@ class Login extends Component{
         return(
             <>
             <div className="auth-container">
-            <div className="auth-header">
-                <h2>Login</h2>
-            </div>
-            <div className="auth-form-section">
-                {
-                    formFields.map((data, index)=>(
-                        <div key={index}>
-                            {/* <TextField 
-                                    name={name}
-                                    value={value} 
-                                    label={label} 
-                                    type={type}
-                                    variant="standard" 
-                                    onChange={(e)=>this.onInputChange(e)}
-                                    placeholder={placeholder}
-                                    /> */}
+                <div className="auth-header">
+                    <h2>Login</h2>
+                </div>
+                <div className="auth-form-section">
+                    {
+                        formFields.map((data, index)=>(
+                            <div key={index}>
                                 <FormInput {...data}/>
-                        </div>
-                    ))
-                }
-            </div>
-            <div className="auth-button-container">
-                <Button variant="contained" onClick={this.loginHandler}>Login</Button>
-                <Button variant="contained" onClick={(e)=>this.props.loginOrSignupRequest()} >Sign up</Button>
-            </div>
+                            </div>
+                        ))
+                    }
+                </div>
+                <div className="auth-button-container">
+                    <Button variant="contained" onClick={this.loginHandler}>Login</Button>
+                    <Button variant="contained" onClick={(e)=>this.props.loginOrSignupRequest()} >Sign up</Button>
+                </div>
             </div>
             </>
         )

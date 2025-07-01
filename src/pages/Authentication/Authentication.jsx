@@ -36,9 +36,10 @@ class Authentication extends Component{
         const isUserExist=!!validUser
         if(isUserExist)
         {
+            console.log(validUser)
             console.log("userExist")
             this.setState({isUserLogin:true})
-            this.props.navigate("/")
+            this.props.navigate(`/${validUser.useremail}`)
             localStorage.setItem('user',validUser.useremail)
         }
         else

@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 
 import ProductFilter from "../../components/ProductFilter/ProductFilter";
 import ProductCard from "../../components/ProductCard/ProductCard";
+import { NavLink, Outlet } from "react-router-dom";
 
 class Products extends Component{
     constructor(props){
@@ -97,7 +98,7 @@ class Products extends Component{
                 {
                     this.state.filteredProducts.map((data, index)=>(
                         <div key={index}>
-                            <ProductCard {...data} onAddToCart={this.onAddToCart} />
+                                <ProductCard {...data} onAddToCart={this.onAddToCart} />
                         </div>
                     ))
                 }

@@ -1,6 +1,15 @@
 import React, { Component } from 'react'
 import Button from '@mui/material/Button';
 import "./ProductCard.css"
+import { NavLink, useNavigate } from 'react-router-dom';
+
+const FunctionalWrapper=(ProductCard)=>{
+  const Wrapper=(props)=>{
+    const navigate=useNavigate()
+    return <ProductCard {...props} navigate={navigate} />
+  }
+  return Wrapper
+}
 
 class ProductCard extends Component {
     constructor(props){
@@ -11,7 +20,7 @@ class ProductCard extends Component {
     const {id, title, price, description, category, image}=this.props
     return (
       <div className='product-card-container'>
-        <h2>{title}</h2>
+        <NavLink to={`product/${id}`}><h2>{title}</h2></NavLink>
         <p>{description}</p>
         <p>{price}</p>
         {
@@ -31,4 +40,4 @@ class ProductCard extends Component {
   }
 }
 
-export default ProductCard
+export default FunctionalWrapper(ProductCard)

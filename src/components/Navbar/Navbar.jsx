@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { NavLink, Outlet } from 'react-router-dom'
+import { Link, NavLink, Outlet } from 'react-router-dom'
 import Badge from '@mui/material/Badge';
 import IconButton from '@mui/material/IconButton';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { Button } from '@mui/material';
 
 export class Navbar extends Component {
   constructor(props){
@@ -30,8 +31,8 @@ export class Navbar extends Component {
   }
   render() {
     const navElements=[
-        {name:"Products", url:"/products"},
-        {name:"Cart", url:"/cart"},
+        {name:"Products", url:"products"},
+        {name:"Cart", url:"cart"},
     ]
     return (
       <div className='navbar-container'>
@@ -62,8 +63,8 @@ export class Navbar extends Component {
                 </div>
             ))
         }
+        <Link to="/auth">Authenticate</Link>
         </div>
-        <Outlet />
       </div>
     )
   }

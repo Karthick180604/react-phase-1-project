@@ -7,21 +7,37 @@ import Products from './pages/Products/Products.jsx'
 import Cart from './pages/Cart/Cart.jsx'
 import Authentication from './pages/Authentication/Authentication.jsx'
 import "./index.css"
-import Navbar from './components/Navbar/Navbar.jsx'
+import WebLayout from './pages/WebLayout/WebLayout.jsx'
+import SingleProduct from './pages/SingleProduct/SingleProduct.jsx'
+import ProductSection from './pages/ProductSection/ProductSection.jsx'
 const router=createBrowserRouter([
     {
       path:"/",
-      element:<Navbar />,
+      element:<WebLayout />,
+      children:[
+        {index:true, element:<Home />}
+      ]
+    },
+    {
+      path:"/:email",
+      element:<WebLayout />,
       children:[
         {index:true, element:<Home />},
-        {path:"products", element:<Products />},
-        {path:"cart", element:<Cart />}
+        {
+          path:"products", 
+          element:<ProductSection />,
+          children:[
+            {index:true, element:<Products />},
+            {path:"product/:id", element:<SingleProduct />}
+          ]
+        },
+        {path:"cart", element:<Cart />},
       ]
     },
     {
       path:"/auth",
       element:<Authentication />
-    }
+    },
   ])
 createRoot(document.getElementById('root')).render(
   <StrictMode>

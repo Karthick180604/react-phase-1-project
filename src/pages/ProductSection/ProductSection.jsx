@@ -1,16 +1,14 @@
 import React, { Component } from 'react'
-import Navbar from '../../components/Navbar/Navbar'
 import { Outlet } from 'react-router-dom'
 
-export class WebLayout extends Component {
+export class ProductSection extends Component {
   render() {
     return (
       <div>
-        <Navbar />
         <Outlet />
       </div>
     )
   }
 }
 
-export default WebLayout
+export default ProductSection
