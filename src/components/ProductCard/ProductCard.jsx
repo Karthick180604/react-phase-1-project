@@ -1,14 +1,31 @@
 import React, { Component } from 'react'
-import { getAllProducts } from '../../services/apiCalls'
+import Button from '@mui/material/Button';
+import "./ProductCard.css"
 
-export class ProductCard extends Component {
+class ProductCard extends Component {
     constructor(props){
         super(props)
     }
     
   render() {
+    const {id, title, price, description, category, image}=this.props
     return (
-      <div>
+      <div className='product-card-container'>
+        <h2>{title}</h2>
+        <p>{description}</p>
+        <p>{price}</p>
+        {
+          this.props.cart===true ? (
+            <div>
+              <p>{this.props.quantity}</p>
+              <Button onClick={()=>this.props.onQuantityChange(id, 1)}>+</Button>
+              <Button onClick={()=>this.props.onQuantityChange(id, -1)}>-</Button>
+              <Button onClick={()=>this.props.onRemoveCart(id)}>Remove from cart</Button>
+            </div>
+          ) : (
+            <Button onClick={()=>this.props.onAddToCart(id)}>Add to cart</Button>
+          )
+        }
       </div>
     )
   }

@@ -3,6 +3,7 @@ import { getAllProducts } from "../../services/apiCalls"
 import Button from '@mui/material/Button';
 
 import ProductFilter from "../../components/ProductFilter/ProductFilter";
+import ProductCard from "../../components/ProductCard/ProductCard";
 
 class Products extends Component{
     constructor(props){
@@ -32,20 +33,9 @@ class Products extends Component{
         console.log(filteredCategories)
         this.setState({categories:filteredCategories})
     }
-    fetchProducts= async(category)=>{
+    fetchProducts= async()=>{
         const {data}=await getAllProducts()
         this.setState({products:data, filteredProducts:data})
-        // if(category!==undefined && category!=="")
-        // {
-        //     const filteredByCategory=data.filter((data)=>{
-        //         return data.category===category
-        //     })
-        //     this.setState({products:filteredByCategory})
-        // }
-        // else
-        // {
-        //     this.setState({products:data})
-        // }
     }
     onCategoryChange=(e)=>{
         const {value}=e.target
@@ -71,6 +61,27 @@ class Products extends Component{
         })
         this.setState({filteredProducts:filteredBySearch})
     }
+    onAddToCart=(id)=>{
+        console.log("in cart button")
+        const localCart=localStorage.getItem("cart")
+        const prevCart=localCart===null ? [] : JSON.parse(localCart)
+        const alreadyExist=prevCart.find((cartItem)=>{
+            return cartItem.id===id
+        })
+        const isExist=!!alreadyExist
+        if(!isExist)
+        {
+            const cartItem={id:id, quantity:1}
+            prevCart.push(cartItem)
+            const stringifyCart=JSON.stringify(prevCart)
+            localStorage.setItem("cart",stringifyCart)
+        }
+        else
+        {
+            console.log("already exist")
+        }
+
+    }
     render(){
         return(
             <>
@@ -86,8 +97,7 @@ class Products extends Component{
                 {
                     this.state.filteredProducts.map((data, index)=>(
                         <div key={index}>
-                            <h3>{data.title}</h3>
-                            <p>{data.category}</p>
+                            <ProductCard {...data} onAddToCart={this.onAddToCart} />
                         </div>
                     ))
                 }

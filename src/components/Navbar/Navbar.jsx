@@ -1,7 +1,33 @@
 import React, { Component } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
+import Badge from '@mui/material/Badge';
+import IconButton from '@mui/material/IconButton';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 export class Navbar extends Component {
+  constructor(props){
+    super(props)
+    this.state={
+      cartCount:0
+    }
+  }
+  componentDidMount(){
+    this.updatedCart()
+
+    window.addEventListener('storage', this.storageHandler)
+  }
+  
+  updatedCart=()=>{
+    const getCartString=localStorage.getItem("cart")
+    const parseCart=JSON.parse(getCartString)
+    this.setState({cartCount:parseCart.length})
+  }
+  storageHandler=(e)=>{
+    if(e.key==='cart')
+    {
+      this.updatedCart()
+    }
+  }
   render() {
     const navElements=[
         {name:"Products", url:"/products"},
@@ -16,6 +42,16 @@ export class Navbar extends Component {
         {
             navElements.map(({name, url}, index)=>(
                 <div key={index}>
+                    {
+                      name==="Cart" ? 
+                      (<IconButton aria-label="cart">
+                        <Badge badgeContent={this.state.cartCount} color="secondary">
+                          <ShoppingCartIcon />
+                        </Badge>
+                      </IconButton>)
+                      :
+                      ""
+                    }
                     <NavLink to={url}
                     className={({ isActive }) =>
                     isActive ? 'active-link' : 'inactive-link'
