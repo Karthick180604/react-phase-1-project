@@ -9,7 +9,7 @@ export class FormInput extends Component {
     return (
       <div>
         <TextField 
-        color='secondary'
+        color='primary'
         name={this.props.name}
         value={this.props.value} 
         label={this.props.label} 

@@ -3,13 +3,16 @@ import { getAllProducts } from "../../services/apiCalls"
 import ProductCard from "../../components/ProductCard/ProductCard"
 import { removeStorageProduct, updateStorageQuantity } from "../../services/storageOperations"
 import "./Cart.css"
+import { Box, CircularProgress } from "@mui/material";
+
 
 class Cart extends Component{
     constructor(props){
         super(props)
         this.state={
             cartProducts:[],
-            total:0
+            total:0,
+            loading:false,
         }
     }
     componentDidMount(){
@@ -17,6 +20,7 @@ class Cart extends Component{
     }
     
     fetchCartProducts=async()=>{
+        this.setState({loading:true})
         const {data}=await getAllProducts()
         const cartString=localStorage.getItem("cart")
         const cartArray=JSON.parse(cartString)
@@ -31,6 +35,7 @@ class Cart extends Component{
         this.setState({cartProducts:getCartItems}, ()=>{
             this.findTotal()
         })
+        this.setState({loading:false})
     }
     onQuantityChange=(id, count)=>{
         let quantityZero=false;
@@ -62,6 +67,7 @@ class Cart extends Component{
         this.setState({cartProducts:filteredCartProduct}, ()=>{
             this.findTotal()
         })
+        window.dispatchEvent(new Event("CartUpdated"))
     }
     findTotal=()=>{
         const totalPrice=this.state.cartProducts.reduce((acc, cartItem)=>{
@@ -72,21 +78,33 @@ class Cart extends Component{
         this.setState({total:totalPrice.toFixed(2)})
     }
     render(){
+        if(this.state.loading)
+        {
+            return(
+                <div className="product-loading-container">
+                    <Box sx={{ display: 'flex' }}>
+                    <CircularProgress />
+                    </Box>
+                </div>
+            )
+        }
         return(
             <>
             <div className="cart-container">
                 <div className="total-container">
                     <h1>Cart</h1>
-                    <h2>total: ${this.state.total}</h2>
+                    <h2>total: ₹{this.state.total}</h2>
                 </div>
-                    <div className="cart-items">
-                        {
-                            this.state.cartProducts.map((data,index)=>(
-                                <div className="cart-product" key={index}>
-                                    <ProductCard {...data} cart={true} onQuantityChange={this.onQuantityChange} onRemoveCart={this.onRemoveCart} />
-                                </div>
-                            ))
-                        }
+                    <div className="cart-items-wrapper">
+                        <div className="cart-items">
+                            {
+                                this.state.cartProducts.map((data,index)=>(
+                                    <div className="cart-product" key={index}>
+                                        <ProductCard {...data} cart={true} onQuantityChange={this.onQuantityChange} onRemoveCart={this.onRemoveCart} />
+                                    </div>
+                                ))
+                            }
+                        </div>
                     </div>
             </div>
             </>

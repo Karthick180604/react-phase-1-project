@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import "./Welcome.css";
+import welcomePng from "../../assets/E-Commerce-Logo-Background-PNG-Image.png"
 
 class Welcome extends Component {
   render() {
@@ -9,7 +10,7 @@ class Welcome extends Component {
             {this.props.children}
         </div>
         <div className="welcome-section">
-
+          <img src={welcomePng}></img>
         </div>
       </div>
     )

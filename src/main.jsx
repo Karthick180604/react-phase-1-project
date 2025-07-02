@@ -11,6 +11,9 @@ import WebLayout from './pages/WebLayout/WebLayout.jsx'
 import SingleProduct from './pages/SingleProduct/SingleProduct.jsx'
 import ProductSection from './pages/ProductSection/ProductSection.jsx'
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles'
+import CartSection from './pages/CartSection/CartSection.jsx'
+import ProtectedRoute from './components/ProtectedRoutes/ProtectedRoute.jsx'
+import NotFound from './pages/NotFound/NotFound.jsx'
 
 const theme=createTheme({
   palette:{
@@ -28,23 +31,38 @@ const router=createBrowserRouter([
       path:"/",
       element:<WebLayout />,
       children:[
-        {index:true, element:<Home />}
+        {index:true, element:<Home />},
+        {
+          path:"*",
+          element:<NotFound />
+        }
       ]
     },
     {
       path:"/:email",
-      element:<WebLayout />,
+      element:<ProtectedRoute><WebLayout /></ProtectedRoute>,
       children:[
         {index:true, element:<Home />},
         {
           path:"products", 
-          element:<ProductSection />,
+          element:<ProtectedRoute><ProductSection /></ProtectedRoute>,
           children:[
-            {index:true, element:<Products />},
+            {index:true, element:<ProtectedRoute><Products /></ProtectedRoute>},
+            {path:"product/:id", element:<ProtectedRoute><SingleProduct /></ProtectedRoute>}
+          ]
+        },
+        {
+          path:"cart",
+          element:<ProtectedRoute><CartSection /></ProtectedRoute>,
+          children:[
+            {index:true, element:<Cart />},
             {path:"product/:id", element:<SingleProduct />}
           ]
         },
-        {path:"cart", element:<Cart />},
+        {
+          path:"*",
+          element:<NotFound />
+        }
       ]
     },
     {

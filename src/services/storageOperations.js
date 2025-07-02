@@ -18,5 +18,10 @@ const removeStorageProduct=(id)=>{
     })
     localStorage.setItem("cart", JSON.stringify(updatedCartArray))
 }
+const getCartItemsLength=()=>{
+    const storageString=localStorage.getItem("cart")
+    const cartArray=storageString===null ? [] : JSON.parse(storageString)
+    return cartArray.length
+}
 
-export {updateStorageQuantity, removeStorageProduct}
+export {updateStorageQuantity, removeStorageProduct, getCartItemsLength}

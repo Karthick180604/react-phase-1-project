@@ -3,7 +3,9 @@ import { Link, NavLink, Outlet } from 'react-router-dom'
 import Badge from '@mui/material/Badge';
 import IconButton from '@mui/material/IconButton';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import "./Navbar.css"
+import { getCartItemsLength } from '../../services/storageOperations';
 
 export class Navbar extends Component {
   constructor(props){
@@ -15,56 +17,76 @@ export class Navbar extends Component {
   componentDidMount(){
     this.updatedCart()
 
-    window.addEventListener('storage', this.storageHandler)
+    window.addEventListener('CartUpdated', this.updatedCart)
   }
   
   updatedCart=()=>{
-    const getCartString=localStorage.getItem("cart")
-    const parseCart=JSON.parse(getCartString)
-    this.setState({cartCount:parseCart.length})
+    const getCartLength=getCartItemsLength()
+    this.setState({cartCount:getCartLength})
   }
-  storageHandler=(e)=>{
-    if(e.key==='cart')
-    {
-      this.updatedCart()
-    }
-  }
+  // storageHandler=(e)=>{
+  //   if(e.key==='cart')
+  //   {
+  //     this.updatedCart()
+  //   }
+  // }
   render() {
+    const userExist=localStorage.getItem("user")
+    const isUserExist=!!userExist
     const navElements=[
-        {name:"Products", url:"products"},
-        {name:"Cart", url:"cart"},
+        {
+          name:"Products",
+          url:"products", 
+          icons:<div className='icon-demo'></div>
+        },
+        {
+          name:"Cart",
+          url:"cart",
+          icons:<IconButton aria-label="cart">
+                          <Badge badgeContent={this.state.cartCount} color="primary">
+                            <ShoppingCartIcon />
+                          </Badge>
+                        </IconButton>
+        },
     ]
     return (
       <div className='navbar-container'>
         <div className="nav-internal-container">
           <div className="nav-title">
-              <h1>Ecommerce</h1>
+              <h1>Shopora</h1>
           </div>
           <div className="nav-elements">
           {
-              navElements.map(({name, url}, index)=>(
-                  <div key={index}>
-                      {
-                        name==="Cart" ? 
-                        (<IconButton aria-label="cart">
-                          <Badge badgeContent={this.state.cartCount} color="secondary">
-                            <ShoppingCartIcon />
-                          </Badge>
-                        </IconButton>)
-                        :
-                        ""
-                      }
-                      <NavLink to={url}
-                      className={({ isActive }) =>
-                      isActive ? 'nav-text active-link' : 'nav-text inactive-link'
-                      }
-                      >
-                      {name}
-                      </NavLink>
-                  </div>
-              ))
+            isUserExist && (
+              
+                  navElements.map(({name, url, icons}, index)=>(
+                      <div key={index}>
+                          <NavLink to={url}
+                          className={({ isActive }) =>
+                            isActive ? 'nav-text active-link' : 'nav-text inactive-link'
+                        }
+                        >
+                          <div className="align-logo">
+                            {icons}
+                            {name}
+                          </div>
+                          </NavLink>
+                      </div>
+                  ))
+            )
           }
-          <Link className='nav-text' to="/auth">Authenticate</Link>
+          {
+            !userExist && (
+              <div className='align-authenticate'>
+                <Link className='nav-text' to="/auth">
+                <div className="align-logo">
+                  <AccountCircleIcon/>Login
+                </div>
+                </Link>
+                </div>
+
+            )
+          }
           </div>
         </div>
       </div>

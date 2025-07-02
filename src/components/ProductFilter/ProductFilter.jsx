@@ -24,7 +24,7 @@ export class ProductFilter extends Component {
           />
         </div>
         <div className="product-filter-category">
-          <FormControl color="secondary"  fullWidth>
+          <FormControl color="primary"  fullWidth>
             <InputLabel id="demo-simple-select-label">Categories</InputLabel>
             <Select
               labelId="demo-simple-select-label"
@@ -32,6 +32,7 @@ export class ProductFilter extends Component {
               value={this.props.category}
               label="Categories"
               onChange={this.props.onCategoryChange}
+              
             >
               {this.props.categories.map((data, index) => (
                 <MenuItem key={index} value={data}>

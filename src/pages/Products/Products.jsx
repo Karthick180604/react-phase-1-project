@@ -5,8 +5,11 @@ import Button from '@mui/material/Button';
 import ProductFilter from "../../components/ProductFilter/ProductFilter";
 import ProductCard from "../../components/ProductCard/ProductCard";
 import "./Products.css"
+import { Box, CircularProgress, Pagination } from "@mui/material";
+
 
 class Products extends Component{
+    contentSize=6;
     constructor(props){
         super(props)
         this.state={
@@ -15,6 +18,11 @@ class Products extends Component{
             categories:[],
             category:"",
             search:"",
+            paginationContent:[],
+            from:0,
+            to:this.contentSize,
+            count:0,
+            loading:false,
         }
     }
     componentDidMount(){
@@ -22,13 +30,37 @@ class Products extends Component{
         this.fetchProducts()
         // this.fetchCategories()
     }
-    // fetchCategories=async()=>{
-    //     const {data}=await getAllProducts();
-        
+    // componentDidUpdate(prevProps, prevState){
+    //     if (prevState.filteredProducts !== this.state.filteredProducts || 
+    //   prevState.from !== this.state.from || 
+    //   prevState.to !== this.state.to) 
+    //   {
+    //     this.handlePagination();
+    //     }
     // }
+    // fetchCategories=async()=>{
+        //     const {data}=await getAllProducts();
+        
+        // }
+    
+        handlePagination=()=>{
+            this.setState({count:this.state.filteredProducts.length})
+            const data=this.state.filteredProducts.slice(this.state.from, this.state.to)
+            this.setState({paginationContent:data}, ()=>console.log(this.state.paginationContent))
+        }
+        onPageChange=(e, page)=>{
+            const from=(page-1)*this.contentSize
+            const to=from+this.contentSize
+            this.setState({from:from, to:to}, ()=>{
+                this.handlePagination()
+            })
+        }
     fetchProducts= async()=>{
+        this.setState({loading:true})
         const {data}=await getAllProducts()
-        this.setState({products:data, filteredProducts:data})
+        this.setState({products:data, filteredProducts:data}, ()=>{
+            this.handlePagination()
+        })
         const filteredCategories=data.reduce((acc, product)=>{
             if(!acc.includes(product.category))
             {
@@ -38,6 +70,7 @@ class Products extends Component{
         },[])
         console.log(filteredCategories)
         this.setState({categories:filteredCategories})
+        this.setState({loading:false})
     }
     onCategoryChange=(e)=>{
         const {value}=e.target
@@ -45,7 +78,9 @@ class Products extends Component{
         const filterByCategory=this.state.products.filter((product)=>{
             return product.category===value
         })
-        this.setState({filteredProducts:filterByCategory})
+        this.setState({filteredProducts:filterByCategory}, ()=>{
+            this.handlePagination()
+        })
     }
     onSearchChange=(e)=>{
         const {value}=e.target
@@ -61,7 +96,9 @@ class Products extends Component{
                 return product.title.toLowerCase().includes(searchText)
             }
         })
-        this.setState({filteredProducts:filteredBySearch})
+        this.setState({filteredProducts:filteredBySearch}, ()=>{
+            this.handlePagination()
+        })
     }
     onAddToCart=(id)=>{
         console.log("in cart button")
@@ -77,14 +114,26 @@ class Products extends Component{
             prevCart.push(cartItem)
             const stringifyCart=JSON.stringify(prevCart)
             localStorage.setItem("cart",stringifyCart)
+            window.dispatchEvent(new Event("CartUpdated"))
         }
         else
         {
             console.log("already exist")
         }
 
+
     }
     render(){
+        if(this.state.loading)
+        {
+            return (
+                <div className="product-loading-container">
+                    <Box sx={{ display: 'flex' }}>
+                    <CircularProgress />
+                    </Box>
+                </div>
+            )
+        }
         return(
             <>
             <div className="products-container">
@@ -97,14 +146,25 @@ class Products extends Component{
                     value={this.state.search}
                     />  
                 </div>
-                <div className="products-display-container">
-                    {
-                        this.state.filteredProducts.map((data, index)=>(
-                            <div className="product-inside-container" key={index}>
-                                    <ProductCard {...data} onAddToCart={this.onAddToCart} />
-                            </div>
-                        ))
-                    }
+                <div className="product-display-wrapper-container">
+                    
+                        <div className="products-display-container">
+                            {
+                                this.state.paginationContent.map((data, index)=>(
+                                    <div className="product-inside-container" key={index}>
+                                            <ProductCard {...data} onAddToCart={this.onAddToCart} />
+                                    </div>
+                                ))
+                            }
+                        </div>
+                </div>
+                <div className="products-pagination">
+                    <Pagination 
+                    count={Math.ceil(this.state.count/this.contentSize)} 
+                    variant="outlined" 
+                    color="primary" 
+                    onChange={this.onPageChange}
+                    />
                 </div>
             </div>
             </>

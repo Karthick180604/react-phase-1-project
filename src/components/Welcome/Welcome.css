@@ -15,6 +15,32 @@
 .welcome-section{
     height: 100%;
     width: 50%;
-    background:linear-gradient(to right, var(--tertiary), var(--secondary));
+    background:linear-gradient(to right, white ,var(--tertiary));
     border-radius: 5px;
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px; 
+  box-sizing: border-box;
+}
+.welcome-section img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+  border-radius: 8px;
+}
+
+@media(max-width:768px){
+  .welcome-section{
+    display: none;
+  }
+  .auth-section{
+    width: 100%;
+  }
+  .welcome-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }

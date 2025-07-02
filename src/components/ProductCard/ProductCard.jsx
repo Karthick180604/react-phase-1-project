@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import Button from '@mui/material/Button';
 import "./ProductCard.css"
 import { NavLink, useNavigate } from 'react-router-dom';
+import { IconButton, Rating } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const FunctionalWrapper=(ProductCard)=>{
   const Wrapper=(props)=>{
@@ -17,26 +21,35 @@ class ProductCard extends Component {
     }
     
   render() {
-    const {id, title, price, description, category, image}=this.props
+    const {id, title, price, description, category, image, rating}=this.props
     return (
       <div className='product-card-container'>
         <NavLink className="nav-text" to={`product/${id}`}>
-        <img className='product-image' src={image} />
-        <h2>{title}</h2>
+        <div className="product-image-container">
+          <img className='product-image' src={image} />
+        </div>
+        <div>
+          <div className="product-title-container">
+            <h2 className='product-title'>{title}</h2>
+          </div>
+        </div>
 
         </NavLink>
-        <p>${price}</p>
+        <p>₹{price}</p>
+        <div className="rating-container">
+          <Rating name="half-rating-read" defaultValue={rating.rate} precision={0.5} readOnly />
+        </div>
         {
           this.props.cart===true ? (
             <div className='cart-buttons'>
               <p>Quantity : {this.props.quantity}</p>
-              <Button onClick={()=>this.props.onQuantityChange(id, 1)}>+</Button>
-              <Button onClick={()=>this.props.onQuantityChange(id, -1)}>-</Button>
-              <Button onClick={()=>this.props.onRemoveCart(id)}>Remove from cart</Button>
+              <IconButton color='primary' variant='outlined' onClick={()=>this.props.onQuantityChange(id, 1)} > <AddIcon /> </IconButton>
+              <IconButton color='primary' variant='outlined' onClick={()=>this.props.onQuantityChange(id, -1)}> <RemoveIcon/> </IconButton>
+              <Button variant='outlined' onClick={()=>this.props.onRemoveCart(id)} endIcon={<DeleteIcon />}>Remove from cart</Button>
             </div>
           ) : (
             <div className='product-button'>
-              <Button onClick={()=>this.props.onAddToCart(id)}>Add to cart</Button>
+              <Button variant='outlined' onClick={()=>this.props.onAddToCart(id)}>Add to cart</Button>
             </div>
           )
         }

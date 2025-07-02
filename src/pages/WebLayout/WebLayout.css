@@ -16,5 +16,14 @@
     height: 15%;
 }
 .content-container{
+    /* background-color: var(--primary); */
     height: 85%;
+}
+@media(max-width:768px){
+    .navbar-web-container{
+    height: 20%;
+    }
+    .content-container{
+        height: 80%;
+    }
 }

@@ -1,11 +1,11 @@
 :root{
-    --primary:#F0F7F4;
+    --primary:#FAFAFA;
     --secondary:#2C5E4C;
     --tertiary:#E7C961;
 }
 
 .product-filter-container{
-    width: 50%;
+    width: 80%;
     display: flex;
     justify-content: space-between;
 }
@@ -15,4 +15,10 @@
 .product-filter-category
 {
     width: 40%;
+}
+
+@media(max-width:768px){
+    .product-filter-container{
+        width: 80%;
+    }
 }
