@@ -11,8 +11,7 @@
 }
 
 .products-container{
-    /* background: linear-gradient(to bottom, var(--tertiary), var(--primary)); */
-    background-color: var(--primary);
+    background-color: #FAFAFA;
     padding: 0;
     height: 100%;
     width: 100%;
@@ -23,7 +22,7 @@
 }
 .products-filter-container{
     height: 15vh;
-    width: 100%;
+    width: 90%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -41,7 +40,7 @@
     display: flex;
     flex-wrap: wrap;
     gap:20px;
-    justify-content: space-around;
+    justify-content: center;
 }
 .products-pagination{
     margin: 20px;
@@ -54,6 +53,51 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.products-conditional-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.products-empty-container{
+    height: 70vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.products-empty-image{
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+    display: block;
+}
+.products-empty-text{
+    color: #d268cc;
+}
+.products-header-container{
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+.back-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 10%;
+}
+.error-container{
+    height: 70vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.error-container h2{
+    color: red;
 }
 
 @media(max-width:624px){
