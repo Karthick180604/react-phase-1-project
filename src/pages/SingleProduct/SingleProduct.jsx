@@ -1,13 +1,23 @@
 import React, { Component } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getSingleProduct } from "../../services/apiCalls";
 import "./SingleProduct.css";
-import { Box, CircularProgress, IconButton, Rating } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  IconButton,
+  Rating,
+  Typography,
+} from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ApiError from "../../components/ApiError/ApiError";
 
 const FunctionalWrapper = (SingleProduct) => {
   const Wrapper = (props) => {
     const params = useParams();
-    return <SingleProduct {...props} params={params} />;
+    const navigate = useNavigate();
+    return <SingleProduct {...props} params={params} navigate={navigate} />;
   };
   return Wrapper;
 };
@@ -19,20 +29,34 @@ class SingleProduct extends Component {
       product: {},
       loading: false,
       rating: 0,
+      error: false,
+      expanded: false,
     };
   }
   fetchSingleProduct = async () => {
-    this.setState({ loading: true });
-    const { data } = await getSingleProduct(this.props.params.id);
-    this.setState({ rating: data.rating.rate });
-    this.setState({ product: data });
-    this.setState({ loading: false });
-
-    // console.log(data)
+    try {
+      this.setState({ loading: true });
+      const { data } = await getSingleProduct(this.props.params.id);
+      this.setState({ rating: data.rating.rate });
+      this.setState({ product: data });
+      this.setState({ loading: false });
+    } catch (error) {
+      this.setState({ loading: false, error: true });
+    }
   };
   componentDidMount() {
     this.fetchSingleProduct();
   }
+  onExpanded = () => {
+    this.setState((prevState) => {
+      return { expanded: !prevState.expanded };
+    });
+  };
+
+  backHandler = () => {
+    this.props.navigate(-1);
+  };
+
   render() {
     if (this.state.loading) {
       return (
@@ -42,40 +66,64 @@ class SingleProduct extends Component {
           </Box>
         </div>
       );
-    } else {
-      const { title, id, description, price, image, category, rating } =
-        this.state.product;
-      console.log(this.state.product);
+    }
+    if (this.state.error) {
       return (
-        <>
-          <div className="single-product-page-container">
-            <div className="single-product-page">
-              <div className="single-product-image">
-                <img src={image} alt={title} />
+        <div className="error-container">
+          <ApiError />
+        </div>
+      );
+    }
+    const limit = 100;
+    const {
+      title,
+      id,
+      description = "",
+      price,
+      image,
+      category,
+      rating,
+    } = this.state.product;
+    const isLong = description.length > limit;
+    return (
+      <>
+        <div className="single-product-page-container">
+          <div className="single-back-container">
+            <IconButton color="primary" onClick={this.backHandler}>
+              <ArrowBackIcon />
+            </IconButton>
+          </div>
+          <div className="single-product-page">
+            <div className="single-product-image">
+              <img src={image} alt={title} />
+            </div>
+            <div className="single-product-details">
+              <h1 className="single-product-title">{title}</h1>
+              <p className="single-product-id">Category: {category}</p>
+              <div className="rating-container">
+                <Rating
+                  name="half-rating-read"
+                  defaultValue={this.state.rating}
+                  precision={0.5}
+                  readOnly
+                />
               </div>
-              <div className="single-product-details">
-                <h1 className="single-product-title">{title}</h1>
-                <p className="single-product-id">Category: {category}</p>
-                <div className="rating-container">
-                  <Rating
-                    name="half-rating-read"
-                    defaultValue={this.state.rating}
-                    precision={0.5}
-                    readOnly
-                  />
-                </div>
-                <p className="single-product-price">₹{price}</p>
-                <p className="single-product-description">{description}</p>
-                {/* <div className="product-actions">
-              <button className="buy-button">Buy Now</button>
-              <button className="add-to-cart-button">Add to Cart</button>
-            </div> */}
+              <p className="single-product-price">₹{price}</p>
+              <div>
+                <Typography variant="body2">
+                  {isLong && !this.state.expanded
+                    ? description.slice(0, limit) + "..."
+                    : description}
+                </Typography>
+                <Button size="small" onClick={this.onExpanded}>
+                  {this.state.expanded ? "Read less" : "Read more"}
+                </Button>
               </div>
             </div>
           </div>
-        </>
-      );
-    }
+        </div>
+      </>
+    );
   }
 }
 

@@ -25,15 +25,14 @@
     color:var(--secondary);
 }
 .nav-elements{
-    width: 50%;
+    width: 30%;
     display: flex;
     color: var(--secondary);
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 }
 .nav-text {
   text-decoration: none;
-  /* padding: 5px; */
   display: block;
 }
 .icon-demo{
@@ -45,7 +44,7 @@
 }
 
 .inactive-link {
-  border-bottom: 2px solid transparent; /* Keeps layout consistent */
+  border-bottom: 2px solid transparent;
 }
 .align-logo{
     display: flex;
@@ -53,10 +52,15 @@
     align-items: center;
 }
 .align-authenticate{
+    display: flex;
+    justify-content: flex-end;
+}
+.align-login{
     width: 100%;
     display: flex;
     justify-content: flex-end;
 }
+
 
 @media(max-width:768px){
     .nav-internal-container{

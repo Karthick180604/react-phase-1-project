@@ -1,0 +1,24 @@
+.api-error-container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+.api-error-image{
+    width: 50%;
+    height: 50%;
+    object-fit: contain;
+    display: block;
+}
+.api-error-text{
+    color: #804e19;
+}
+.api-error-internal-container{
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}

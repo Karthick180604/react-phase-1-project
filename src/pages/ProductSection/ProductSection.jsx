@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { Outlet } from 'react-router-dom'
+import React, { Component } from "react";
+import { Outlet } from "react-router-dom";
 
 export class ProductSection extends Component {
   render() {
@@ -7,8 +7,8 @@ export class ProductSection extends Component {
       <div>
         <Outlet />
       </div>
-    )
+    );
   }
 }
 
-export default ProductSection
+export default ProductSection;

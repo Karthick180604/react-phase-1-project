@@ -16,7 +16,6 @@
     height: 15%;
 }
 .content-container{
-    /* background-color: var(--primary); */
     height: 85%;
 }
 @media(max-width:768px){
