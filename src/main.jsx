@@ -17,6 +17,8 @@ import NotFound from "./pages/NotFound/NotFound.jsx";
 import ErrorBoundary from "./components/ErrorBoundary/ErrorBoundary.jsx";
 import AuthProtectedRoutes from "./components/AuthProtectedRoutes/AuthProtectedRoutes.jsx";
 import HomeProtectedRoutes from "./components/HomeProtectedRoutes/HomeProtectedRoutes.jsx";
+import { Provider } from "react-redux";
+import { store } from "./redux/store.js";
 
 const theme = createTheme({
   palette: {
@@ -112,8 +114,10 @@ const router = createBrowserRouter([
 ]);
 createRoot(document.getElementById("root")).render(
   <ErrorBoundary>
-    <ThemeProvider theme={theme}>
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </Provider>
   </ErrorBoundary>,
 );

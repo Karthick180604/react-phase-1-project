@@ -16,6 +16,8 @@ import { useNavigate } from "react-router-dom";
 import debounce from "lodash.debounce";
 import ApiError from "../../components/ApiError/ApiError";
 import noResults from "../../assets/noResults.jpg";
+import { addToCartAction, removeFromCartAction } from "../../redux/Action";
+import { connect } from "react-redux";
 
 const Wrapper = (props) => {
   const navigate = useNavigate();
@@ -181,6 +183,10 @@ class Products extends Component {
 
   onAddToCart = (id) => {
     this.setState({ open: true, snackbarMessage: "Added to cart" });
+    //redux
+    this.props.addToCart(id)
+    console.log(this.props.cartItems)
+    //redux
     const localCart = localStorage.getItem("cart");
     const prevCart = localCart === null ? [] : JSON.parse(localCart);
     const alreadyExist = prevCart.find((cartItem) => {
@@ -299,4 +305,13 @@ class Products extends Component {
   }
 }
 
-export default Wrapper;
+const mapStateToProps=(state)=>({
+  cartItems:state.cart
+})
+
+const mapDispatchToProps={
+  addToCart:addToCartAction,
+  removeFromCart:removeFromCartAction,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Wrapper);
