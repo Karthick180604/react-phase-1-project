@@ -229,7 +229,7 @@ class Products extends Component {
       return (
         <div className="product-loading-container">
           <Box sx={{ display: "flex" }}>
-            <CircularProgress />
+            <CircularProgress data-testid="circular-progress" />
           </Box>
         </div>
       );
